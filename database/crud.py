@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from database.models import Debt, Session as SessionLocal
+from database.models import Debt, Transaction, Session as SessionLocal
 
 def get_or_create_debt(user_id: int, person_name: str) -> Debt:
     session = SessionLocal()
@@ -40,3 +40,26 @@ def get_all_debts(user_id: int):
     debts = session.query(Debt).filter_by(user_id=user_id).all()
     session.close()
     return debts
+
+def create_transaction(user_id: int, person_name: str, amount: float, transaction_type: str):
+    session = SessionLocal()
+    transaction = Transaction(
+        user_id=user_id,
+        person_name=person_name,
+        amount=amount,
+        transaction_type=transaction_type
+    )
+    session.add(transaction)
+    session.commit()
+    session.close()
+
+def get_transactions(user_id: int, person_name: str = None):
+    session = SessionLocal()
+    query = session.query(Transaction).filter_by(user_id=user_id)
+    
+    if person_name:
+        query = query.filter_by(person_name=person_name)
+    
+    transactions = query.order_by(Transaction.created_at.desc()).all()
+    session.close()
+    return transactions

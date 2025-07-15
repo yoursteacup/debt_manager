@@ -2,7 +2,7 @@ import logging
 from telegram.ext import Application, CommandHandler
 from config import BOT_TOKEN
 from handlers.common import start, help_command
-from handlers.debt import borrow, lend, pay, returned, show
+from handlers.debt import borrow, lend, pay, returned, show, history
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -20,6 +20,7 @@ def main():
     application.add_handler(CommandHandler("pay", pay))
     application.add_handler(CommandHandler("returned", returned))
     application.add_handler(CommandHandler("show", show))
+    application.add_handler(CommandHandler("history", history))
     
     logger.info("Bot started with long polling")
     application.run_polling(allowed_updates=Update.ALL_TYPES)

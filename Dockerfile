@@ -12,5 +12,6 @@ COPY . .
 # Создание директории для базы данных
 RUN mkdir -p /app/data
 
-# Запуск бота
-CMD ["python", "bot.py"]
+# Запуск бота через скрипт с миграциями
+RUN chmod +x start.sh
+CMD ["./start.sh"]
