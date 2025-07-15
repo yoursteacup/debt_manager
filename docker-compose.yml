@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  debt-bot:
+    build: .
+    container_name: debt_manager_bot
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
